@@ -1,0 +1,37 @@
+<mat-toolbar color="primary" class="animated-element">
+  <span>Task Manager</span>
+  <span class="spacer"></span>
+  <button mat-button routerLink="/home">Home</button>
+  <button mat-button routerLink="/tasklist">Task List</button>
+  <button mat-button color="accent" routerLink="/create-task">Create New Task</button>
+  <span *ngIf="isAuthenticated" class="user-info">
+    Signed in as {{ username }}
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item disabled>{{ username }}</button>
+      <button mat-menu-item disabled>{{ email }}</button>
+      <button mat-menu-item (click)="logout()">Log out</button>
+    </mat-menu>
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </span>
+  <button mat-button (click)="login()" *ngIf="!isAuthenticated">Log in</button>
+</mat-toolbar>
+
+<div class="task-container">
+  <mat-card *ngFor="let task of tasks" class="task-card">
+    <mat-card-header>
+      <mat-card-title>{{ task.title }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Description: {{ task.description }}</p>
+      <p>Due Date: {{ task.dueDate | date }}</p>
+      <p>Priority: {{ task.priority }}</p>
+      <p>Status: {{ task.status }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="primary" [routerLink]="['/task-edit', task._id]">Edit</button>
+      <button mat-button color="warn" (click)="deleteTask(task._id)">Delete</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

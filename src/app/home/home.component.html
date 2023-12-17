@@ -1,0 +1,26 @@
+<!-- home.component.html -->
+<mat-toolbar color="primary" class="animated-element">
+  <span>Task Manager</span>
+  <span class="spacer"></span>
+  <button mat-button routerLink="/home">Home</button>
+  <button mat-button (click)="navigateTo('/tasklist')">Task List</button>
+  <button mat-button (click)="navigateTo('/create-task')">Create Task</button>
+
+  <!-- Dropdown menu for authenticated user -->
+  <span *ngIf="isAuthenticated" class="user-info">
+    <button mat-button [matMenuTriggerFor]="userMenu">{{ userEmail }}</button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item (click)="logout()">Log out</button>
+    </mat-menu>
+  </span>
+
+  <!-- Login button for unauthenticated users -->
+  <button mat-button (click)="login()" *ngIf="!isAuthenticated">Log in</button>
+</mat-toolbar>
+
+<div class="welcome-container animated-element">
+  <h1 class="fade-in">Welcome to Task Manager</h1>
+  <p class="fade-in">Manage your tasks efficiently and stay organized.</p>
+  <!-- Updated button to use navigateTo -->
+  <button mat-raised-button color="primary" class="fade-in" (click)="navigateTo('/create-task')">Get Started</button>
+</div>
