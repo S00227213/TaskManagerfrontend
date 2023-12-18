@@ -1,5 +1,9 @@
 <div class="task-form-container">
   <mat-toolbar color="primary">
+    <!-- Back button to return to the task list -->
+    <button mat-icon-button [routerLink]="['/tasklist']" aria-label="Back to task list">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
     <span class="toolbar-title">Create New Task</span>
   </mat-toolbar>
 

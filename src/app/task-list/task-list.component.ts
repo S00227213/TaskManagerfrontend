@@ -1,8 +1,8 @@
-// task-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../task.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-task-list',
@@ -11,60 +11,85 @@ import { AuthService } from '../auth.service';
 })
 export class TaskListComponent implements OnInit {
   tasks: any[] = [];
+  filteredTasks: any[] = [];
+  priorities: string[] = ['All', 'High', 'Medium', 'Low'];
+  selectedPriority: string = 'All';
   isAuthenticated: boolean = false;
-  userProfile: any = null;
-  username: string | undefined;
-  email: string | undefined;
+  userEmail: string | undefined;
 
   constructor(
     private taskService: TaskService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.loadTaskList();
-    this.isAuthenticated = await this.authService.isAuthenticated();
-    if (this.isAuthenticated) {
-      this.userProfile = await this.authService.getUser();
-      this.username = this.userProfile?.name;
-      this.email = this.userProfile?.email;
-    }
+    this.checkAuthentication();
   }
 
-  loadTaskList() {
+  private loadTaskList() {
     this.taskService.getTasks().subscribe(
-      (data: any[]) => this.tasks = data,
-      (error) => console.error('Error fetching tasks:', error)
+      (data: any[]) => {
+        this.tasks = data;
+        this.applyFilter();
+      },
+      (error) => {
+        console.error('Error fetching tasks:', error);
+      }
     );
   }
 
+  applyFilter() {
+    if (this.selectedPriority === 'All') {
+      this.filteredTasks = this.tasks;
+    } else {
+      this.filteredTasks = this.tasks.filter(task => task.priority === this.selectedPriority);
+    }
+  }
+
+  onPriorityChange() {
+    this.applyFilter();
+  }
   deleteTask(taskId: string) {
     this.taskService.deleteTask(taskId).subscribe(
       () => {
-        console.log('Task deleted successfully');
-        this.loadTaskList();
+        this.snackBar.open('Task deleted successfully', 'OK', { duration: 3000 });
+        this.tasks = this.tasks.filter(task => task._id !== taskId);
+        this.applyFilter();
       },
-      (error) => console.error('Error deleting task:', error)
+      (error) => {
+        this.snackBar.open('Error deleting task', 'OK', { duration: 3000 });
+        console.error('Error deleting task:', error);
+      }
     );
   }
+  
 
   async login() {
     await this.authService.login();
-    this.isAuthenticated = await this.authService.isAuthenticated();
-    if (this.isAuthenticated) {
-      this.userProfile = await this.authService.getUser();
-      this.username = this.userProfile?.name;
-      this.email = this.userProfile?.email;
-    }
+    this.checkAuthentication();
   }
 
   async logout() {
     await this.authService.logout();
     this.isAuthenticated = false;
-    this.userProfile = null;
-    this.username = undefined;
-    this.email = undefined;
+    this.userEmail = undefined;
     this.router.navigate(['/home']);
+  }
+
+  // Define the checkAuthentication method
+  private checkAuthentication() {
+    this.authService.isAuthenticated$.subscribe(
+      isAuthenticated => {
+        this.isAuthenticated = isAuthenticated;
+        if (isAuthenticated) {
+          this.authService.getUser().then(user => {
+            this.userEmail = user?.email;
+          });
+        }
+      }
+    );
   }
 }

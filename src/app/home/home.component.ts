@@ -1,4 +1,4 @@
-// home.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
@@ -20,24 +20,29 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Subscribe to the isAuthenticated observable from the AuthService
     this.authService.isAuthenticated$.subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
       if (isAuthenticated) {
+        // Load the user's profile when authenticated
         this.loadUserProfile();
       }
     });
   }
 
+  // Function to load the user's profile
   private loadUserProfile(): void {
     this.authService.getUser().then(user => {
       this.userEmail = user?.email;
     });
   }
 
+  // Function to initiate the login process
   login(): void {
     this.authService.login();
   }
 
+  // Function to navigate to a specific route if authenticated
   async navigateTo(path: string): Promise<void> {
     const isAuthenticated = await this.authService.isAuthenticated();
     if (isAuthenticated) {
@@ -47,6 +52,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  // Function to initiate the logout process
   logout(): void {
     this.authService.logout().then(() => {
       this.router.navigate(['/home']);

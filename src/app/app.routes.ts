@@ -1,11 +1,10 @@
-// app.routes.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TaskEditComponent } from './task-edit/task-edit.component';
 import { TaskDetailsComponent } from './tasks/task-details/task-details.component';
 import { HomeComponent } from './home/home.component';
-import { AuthGuard } from './auth.guard'; // Import AuthGuard
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },

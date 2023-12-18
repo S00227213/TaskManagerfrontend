@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px; /* Added margin for spacing */
+  margin-bottom: 20px;
 }
 
 .title {
@@ -21,13 +21,13 @@
 }
 
 .task-card {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   border-radius: 5px;
 }
 
 .task-card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 mat-card-header {
@@ -53,7 +53,7 @@ mat-card-actions button {
   margin-left: 8px;
 }
 
-/* Additional Styling for 'Create New Task' Button */
+
 button[color="accent"] {
   background-color: #ff4081;
   color: white;
@@ -61,4 +61,35 @@ button[color="accent"] {
 
 button[color="accent"]:hover {
   background-color: #f50057;
+}
+
+.status-pending {
+  color: #ffa500; /* Orange for pending tasks */
+}
+
+.status-ongoing {
+  color: #0000ff; /* Blue for ongoing tasks */
+}
+
+.status-completed {
+  color: #008000; /* Green for completed tasks */
+}
+
+
+/* Fade-in animation */
+.fade-in {
+  animation: fadeInAnimation ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

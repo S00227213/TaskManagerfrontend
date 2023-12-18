@@ -5,16 +5,16 @@ import authConfig from '../../src/assets/auth_config.json';
 import { LogoutOptions } from '@auth0/auth0-angular';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private auth0Client: Auth0Client;
   
-  // BehaviorSubjects to hold the state
+ 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   private userProfileSubject = new BehaviorSubject<any>(null);
 
-  // Expose observables of the BehaviorSubjects
+
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   public userProfile$ = this.userProfileSubject.asObservable();
 
@@ -22,13 +22,13 @@ export class AuthService {
     const options = {
       domain: authConfig.domain,
       clientId: authConfig.clientId,
-      cacheLocation: 'localstorage',  // Add this line
+      cacheLocation: 'localstorage',  
       redirectUri: `https://127.0.0.1:4200/tasklist` // Redirect to the tasks page after login with the updated URL
     } as Auth0ClientOptions;
     this.auth0Client = new Auth0Client(options);
 
-      // Initialize the authentication check
-      this.handleAuthentication();  
+    // Initialize the authentication check
+    this.handleAuthentication();  
   }
   
   // Existing login method retained
@@ -80,6 +80,6 @@ export class AuthService {
 
   // Method to handle authentication callback
   public async handleAuthCallback() {
-    // Your implementation here
+   
   }
 }

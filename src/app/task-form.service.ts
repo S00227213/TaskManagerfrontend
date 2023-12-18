@@ -8,6 +8,7 @@ export class TaskFormService {
 
   constructor(private fb: FormBuilder) {}
 
+  // Initialize a task form, with optional task data pre-fill
   initTaskForm(task?: any): FormGroup {
     return this.fb.group({
       title: [task ? task.title : '', Validators.required],

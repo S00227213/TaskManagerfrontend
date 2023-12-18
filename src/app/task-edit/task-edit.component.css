@@ -4,7 +4,7 @@
   max-width: 600px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #ffffff; /* Changed for better readability */
+  background: #ffffff; 
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -13,7 +13,7 @@
 .toolbar-title {
   font-size: 1.5rem;
   font-weight: 500;
-  color: #333333; /* Added color for consistency */
+  color: #333333; 
 }
 
 .edit-task-form {
@@ -44,10 +44,10 @@
   position: absolute;
   top: -3rem;
   right: 1rem;
-  z-index: 2; /* Ensuring it's above other elements */
+  z-index: 2; 
 }
 
-/* Additional styles for buttons and inputs */
+
 button[mat-raised-button] {
   margin-right: 8px;
 }
